@@ -1,0 +1,24 @@
+version: '3'
+services:
+  backend:
+    build: ./mms_backend
+    ports:
+      - "18080:18080"
+    networks:
+      - mms-network
+
+  frontend:
+    build:
+      context: ./mms_frontend
+      args:
+        REACT_APP_API_URL: http://backend:18080
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - mms-network
+
+networks:
+  mms-network:
+    driver: bridge

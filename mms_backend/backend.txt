@@ -1,1 +1,3 @@
 This is the note for backend.
+
+g++ -std=c++17 main.cpp -I./Crow/include -I/path/to/boost -L/path/to/boost/stage/lib -lboost_system -lpthread -o app

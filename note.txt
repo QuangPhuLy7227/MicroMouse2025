@@ -1,1 +1,3 @@
 Please put your note here while coding for this project
+
+docker-compose build --progress=plain --no-cache
