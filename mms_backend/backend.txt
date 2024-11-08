@@ -1,3 +1,5 @@
 This is the note for backend.
 
-g++ -std=c++17 main.cpp -I./Crow/include -I/C:\Users\Owner\Downloads\boost_1_86_0\boost_1_86_0 -L/C:\Users\Owner\Downloads\boost_1_86_0\boost_1_86_0\libs -lboost_system -lpthread -o app
+g++ -std=c++17 main.cpp -I./Crow/include -I/C:\Users\Owner\Downloads\boost_1_86_0\boost_1_86_0 -L/C:\Users\Owner\Downloads\boost_1_86_0\boost_1_86_0\libs -lboost_system -lpthread -o app (not up-to-date, do not use)
+
+g++ -std=c++17 main.cpp -I./Crow/include -I./include -o app (for mac only)
