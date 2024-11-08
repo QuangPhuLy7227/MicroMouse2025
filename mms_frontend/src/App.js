@@ -1,24 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 function App() {
   const API_BASE_URL = process.env.REACT_APP_API_URL;
-
   const [count, setCount] = useState(0);
 
-  // Function to fetch the current count from the backend
-  const fetchCount = async () => {
+  // Memoize the fetchCount function
+  const fetchCount = useCallback(async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/count`);
       setCount(response.data.count);
     } catch (error) {
       console.error('Error fetching count:', error);
     }
-  };
+  }, [API_BASE_URL]);
 
   useEffect(() => {
     fetchCount();
-  }, []);
+  }, [fetchCount]);
 
   const incrementCount = async () => {
     try {
@@ -30,7 +29,7 @@ function App() {
   };
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
       <h1>Welcome to the page</h1>
       <button onClick={incrementCount}>Press me</button>
       <p>You have pressed the button {count} times.</p>
