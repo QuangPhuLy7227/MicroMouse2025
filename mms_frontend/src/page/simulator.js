@@ -13,7 +13,7 @@ const Simulator = () => {
           Maze
         </div>
       </div>
-      
+
       <div className="grid grid-cols-11 grid-rows-8 gap-2 bg-red-800 p-4 rounded-lg shadow-lg w-[700px] h-[500px] max-w-4xl">
 
         {/* Control & Config with Output Terminal */}
