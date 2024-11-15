@@ -1,5 +1,6 @@
 #include "crow.h"
 #include <asio/asio.hpp>
+#include <nlohmann/json.hpp>
 
 #include "Mouse.h"
 #include "MouseGraphic.h"
@@ -65,20 +66,51 @@
 //     return 0;
 // }
 
-crow::json::wvalue getMouseGraphics() {
+
+using json = nlohmann::json;
+
+json getMouseGraphics() {
     mms_backend::Mouse mouse;
     mms_backend::MouseGraphic mouseGraphic(&mouse);
     auto triangles = mouseGraphic.draw();
 
-    crow::json::wvalue response;
+    json response;
+    json triangleList = json::array();
     for (const auto& triangle : triangles) {
-        crow::json::wvalue item;
-        item["p1"] = {triangle.p1.x, triangle.p1.y};
-        item["p2"] = {triangle.p2.x, triangle.p2.y};
-        item["p3"] = {triangle.p3.x, triangle.p3.y};
-        item["color"] = {triangle.color.r, triangle.color.g, triangle.color.b};
-        item["alpha"] = triangle.alpha;
-        response["triangles"].push_back(item);
+        json triangleItem;
+
+        triangleItem["p1"] = {
+            {"x", triangle.p1.x},
+            {"y", triangle.p1.y},
+            {"color", {triangle.p1.rgb.r, triangle.p1.rgb.g, triangle.p1.rgb.b}},
+            {"alpha", triangle.p1.a}
+        };
+        triangleItem["p2"] = {
+            {"x", triangle.p2.x},
+            {"y", triangle.p2.y},
+            {"color", {triangle.p2.rgb.r, triangle.p2.rgb.g, triangle.p2.rgb.b}},
+            {"alpha", triangle.p2.a}
+        };
+        triangleItem["p3"] = {
+            {"x", triangle.p3.x},
+            {"y", triangle.p3.y},
+            {"color", {triangle.p3.rgb.r, triangle.p3.rgb.g, triangle.p3.rgb.b}},
+            {"alpha", triangle.p3.a}
+        };
+
+        triangleList.push_back(triangleItem);
     }
+
+    response["triangles"] = triangleList;
     return response;
+}
+
+int main() {
+    crow::SimpleApp app;
+
+    CROW_ROUTE(app, "/mouse")([]() {
+        return getMouseGraphics().dump();
+    });
+
+    app.port(8080).multithreaded().run();
 }
