@@ -4,7 +4,7 @@
 #include <vector>
 #include <utility>
 #include "Direction.h"
-#include "Maze.h"
+// #include "Maze.h"
 #include "Polygon.h"
 #include "units/Coordinate.h"
 

@@ -54,4 +54,40 @@ namespace mms_backend {
         m_currentTranslation = translation;
         m_currentRotation = rotation;
     }
+
+    SemiPosition Mouse::getCurrentDiscretizedTranslation() const {
+        Distance halfTileLength = Dimensions::halfTileLength();
+        Distance quarterTileLength = Dimensions::quarterTileLength();
+        int x = static_cast<int>(std::floor((m_currentTranslation.getX() + quarterTileLength) / halfTileLength));
+        int y = static_cast<int>(std::floor((m_currentTranslation.getY() + quarterTileLength) / halfTileLength));
+        return {x, y};
+    }
+
+    SemiDirection Mouse::getCurrentDiscretizedRotation() const {
+        int dir = static_cast<int>(std::floor((m_currentRotation + Angle::Degrees(22.5)).getRadiansZeroTo2pi() / Angle::Degrees(45).getRadiansZeroTo2pi()));
+        switch (dir) {
+            case 0: return SemiDirection::EAST;
+            case 1: return SemiDirection::NORTHEAST;
+            case 2: return SemiDirection::NORTH;
+            case 3: return SemiDirection::NORTHWEST;
+            case 4: return SemiDirection::WEST;
+            case 5: return SemiDirection::SOUTHWEST;
+            case 6: return SemiDirection::SOUTH;
+            case 7: return SemiDirection::SOUTHEAST;
+            default: ASSERT_NEVER_RUNS();
+        }
+    }
+
+    Polygon Mouse::getCurrentBodyPolygon() const {
+        return getCurrentPolygon(m_initialBodyPolygon);
+    }
+
+    Polygon Mouse::getCurrentWheelPolygon() const {
+        return getCurrentPolygon(m_initialWheelPolygon);
+    }
+
+    Polygon Mouse::getCurrentPolygon(const Polygon& initialPolygon) const {
+        return initialPolygon.translate(m_currentTranslation - m_initialTranslation)
+            .rotateAroundPoint(m_currentRotation - m_initialRotation, m_currentTranslation);
+    }
 }
