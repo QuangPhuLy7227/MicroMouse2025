@@ -99,6 +99,15 @@ const Navbar = () => {
                 Test
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to="/color"
+                className={({ isActive }) => `block py-2 px-3 md:p-0 rounded ${isActive ? "nav-link-active" : "text-gray-500"}`
+                }
+              >
+                Color Test
+              </NavLink>
+            </li>
           </ul>
         </div>
       </div>

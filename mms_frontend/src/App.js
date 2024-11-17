@@ -5,6 +5,7 @@ import Simulator from './page/simulator';
 import Periscope from './page/periscope';
 import ControlPanel from './page/controlPanel';
 import Test from './page/testConnection';
+import ColorDialogTest from './page/testColor';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/periscope" element={<Periscope />} />
         <Route path="/control-panel" element={<ControlPanel />} />
         <Route path="/test" element={<Test />} />
+        <Route path="/color" element={<ColorDialogTest />} />
       </Routes>
     </Router>
   );

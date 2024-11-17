@@ -74,7 +74,7 @@ namespace mms_backend {
             case 5: return SemiDirection::SOUTHWEST;
             case 6: return SemiDirection::SOUTH;
             case 7: return SemiDirection::SOUTHEAST;
-            default: ASSERT_NEVER_RUNS();
+            default: return SemiDirection::NORTH;
         }
     }
 
